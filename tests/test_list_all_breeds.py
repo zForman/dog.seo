@@ -1,6 +1,7 @@
 import pytest
 import requests
 import json
+from config import API_DOG_LIST_ALL_BREEDS
 
 
 def expected_data():
@@ -109,16 +110,18 @@ def expected_data():
 
 
 @pytest.mark.parametrize('expected_data, breed, status_code, content_type', [
-    (expected_data(), 'bulldog', [200], 'application/json'),
-    (expected_data(), 'chihuahua', [300], 'application/json'),
-    (expected_data(), 'husky', [200], 'application/json'),
-    (expected_data(), 'labrador', [300], 'application/json')
+    (expected_data(), 'bulldog', 200, 'application/json'),
+    (expected_data(), 'chihuahua', 300, 'application/json'),
+    (expected_data(), 'husky', 200, 'application/json'),
+    (expected_data(), 'labrador', 300, 'application/json')
 ])
-def test_list_all_breed(get_list_all_breed, expected_data, breed, status_code, content_type):
-    response = requests.get(get_list_all_breed)
-    j = json.loads(response.text)
-    for code in status_code:
+def test_list_all_breed(call_api, expected_data, breed, status_code, content_type):
+    response = call_api.get(path=API_DOG_LIST_ALL_BREEDS)
+    data = response.json()
+
+    for code in [status_code]:
         assert response.status_code <= code
-        assert response.headers['Content-Type'] == content_type
-        assert j == expected_data
-        assert breed in j['message']
+
+    assert response.headers['Content-Type'] == content_type
+    assert data == expected_data
+    assert breed in data['message']
