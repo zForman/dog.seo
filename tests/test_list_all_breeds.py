@@ -1,6 +1,4 @@
 import pytest
-import requests
-import json
 from config import API_DOG_LIST_ALL_BREEDS
 
 
@@ -125,3 +123,5 @@ def test_list_all_breed(call_api, expected_data, breed, status_code, content_typ
     assert response.headers['Content-Type'] == content_type
     assert data == expected_data
     assert breed in data['message']
+
+
