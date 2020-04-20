@@ -17,3 +17,10 @@ To ran **all tests**:
 
 `pytest --base_url https://dog.ceo/api/`
 
+To run **test_random_img_breed.py**:
+
+`pytest test_random_img_breed.py --breed bulldog --base_url https://dog.ceo/api/ -v -s` 
+
+To run **test_img_by_sub_breed.py**:
+
+`pytest test_img_by_sub_breed.py --base_url  https://dog.ceo/api/ --all_img_sub_breed hound` 

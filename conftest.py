@@ -25,8 +25,9 @@ def pytest_addoption(parser):
 
     parser.addoption(
         '--base_url',
-        choices=['https://dog.ceo/api/'],
+        # choices=['https://dog.ceo/api/'],
         help='Use the url https://dog.ceo/api/',
+        # default='https://dog.ceo/api/',
         required=True
     )
 
@@ -37,9 +38,20 @@ def pytest_addoption(parser):
         help='Use the url https://dog.ceo/api/',
     )
 
+    parser.addoption(
+        '--breed',
+        default='akita'
+    )
+
+    parser.addoption(
+        '--all_img_sub_breed',
+        default='hound'
+    )
+
 
 @pytest.fixture(scope='session')
 def call_api(request):
+    breed = request.config.getoption('--breed')
     random_num = request.config.getoption('--num')
     base_url = request.config.getoption('--base_url')
     return APIClient(base_address=base_url, random_num=random_num)
